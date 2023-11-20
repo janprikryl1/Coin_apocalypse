@@ -12,24 +12,33 @@ public class World {
 	private DrawableSimulable []entities;
 
 	private Coin_collector coinCollector;
+	private Score_label scoreLabel;
+	private Coins_count coinsCount;
+	private Obstacle obstacle;
 
 	public World(double width, double height) {
 		super();
 		this.width = width;
 		this.height = height;
-		coinCollector = new Coin_collector(this, new Point2D(70, 40));
-		entities = new DrawableSimulable[1];
-		entities[0] = coinCollector;
-		//entities[1] = new BulletAnimated(this, cannon, new Point2D(30, 60), new Point2D(0, 0), 40);
+		coinCollector = new Coin_collector(this, new Point2D(70, 65));
+		scoreLabel = new Score_label((int) (this.width/2), 30);
+		coinsCount = new Coins_count((int) (this.width/2), 30);
+		entities = new DrawableSimulable[1 + 3 + 10 + 1];
+		entities[0] = new Background(this);
+		entities[1] = scoreLabel;
+		entities[2] = coinsCount;
+
+		entities[3] = coinCollector;
+
 		Random rnd = new Random();
-		
-		/*for (int i = 2; i < entities.length; i++) {
-			int x = rnd.nextInt((int) width);
-			int y = rnd.nextInt((int) height);
-			int vel_x = (rnd.nextInt(10) - 5) * 10;
-			int vel_y = (rnd.nextInt(10) - 5) * 10;
-			entities[i] = new Dragon(this, new Point2D(x, y), new Point2D(vel_x, vel_y));
-		}*/
+
+		for (int i = 4; i < 14; i++) {
+			Coin coin = new Coin(this, new Point2D(rnd.nextInt((int) width - 45), height), rnd.nextInt(40) + 45);
+			entities[i] = coin;
+		}
+
+		obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40);
+		entities[14] = obstacle;
 	}
 
 	public Point2D getCanvasPoint(Point2D worldPoint) {

@@ -81,8 +81,8 @@ public class BulletAnimated  implements DrawableSimulable, Collisionable{
 		return new Rectangle2D(position.getX(), position.getY() - size, size, size);
 	}
 	
-	public boolean overlaps(Dragon dragon) {
-		return getBoundingBox().intersects(dragon.getBoundingBox());
+	public boolean overlaps(Coin coin) {
+		return getBoundingBox().intersects(coin.getBoundingBox());
 	}
 	
 	public void hitBy(Collisionable other) {
