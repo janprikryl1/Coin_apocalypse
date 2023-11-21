@@ -116,4 +116,15 @@ public class World {
 		gameOver.setScore(scoreLabel.getScore());
 		gameOver.saveToScore();
 	}
+
+	public void playAgainClicked() {
+		if (!game) {
+			System.out.println("Play again");
+		}
+	}
+	public void MenuClicked() {
+		if (!game) {
+			System.out.println("Menu");
+		}
+	}
 }

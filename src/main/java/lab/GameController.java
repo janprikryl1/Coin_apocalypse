@@ -3,7 +3,6 @@ package lab;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -26,9 +25,21 @@ public class GameController {
 		animationTimer.start();
 		canvas.setOnKeyPressed(this::handleKeyPressed);
 		//canvas.setOnKeyReleased(this::handleKeyReleased);
+		canvas.setOnMouseClicked(this::mouseClicked);
 		canvas.requestFocus();  // Pro zajištění, že canvas bude mít focus a bude moci zachytávat klávesové události
 
 	}
+
+	private void mouseClicked(MouseEvent mouseEvent) {
+		if (mouseEvent.getX() >= 499 && mouseEvent.getX() <= 584 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) { //Play again X od 499, Y od 348 do X: 584, Y: 384
+			world.playAgainClicked();
+		} else if (mouseEvent.getX() >= 20 && mouseEvent.getX() <= 99 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) { //Menu od X: 20, Y: 348 do X: 99, Y: 348
+			world.MenuClicked();
+		}
+
+
+	}
+
 	private void handleKeyPressed(KeyEvent event) {
 		// Reakce na stisknutou klávesu
 		if (event.getCode().getCode() == 37) { //Left
