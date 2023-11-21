@@ -57,13 +57,15 @@ public class Coin implements DrawableSimulable, Collisionable{
 
 
 	public void hit() {
-
+		world.increaseCoins();
+		position = new Point2D(rnd.nextInt((int) ((int) world.getWidth() - size)), world.getHeight());
+		speed = rnd.nextInt(40) + 45;
 	}
 
 
 	@Override
 	public void hitBy(Collisionable other) {
-		if (!(other instanceof Coin)) {
+		if ((other instanceof Coin_collector)) {
 			hit();
 		}
 	}

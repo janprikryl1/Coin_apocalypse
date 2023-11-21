@@ -1,12 +1,13 @@
 package lab;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 
-public class Coin_collector implements DrawableSimulable {
+public class Coin_collector implements DrawableSimulable, Collisionable {
 
 	private boolean jump = false;
 	private Point2D position;
@@ -46,17 +47,27 @@ public class Coin_collector implements DrawableSimulable {
 
 	public void move_left() {
 		if (this.position.getX() > 0) {
-			this.position = new Point2D(this.position.getX() - 10, this.position.getY());
+			this.position = new Point2D(this.position.getX() - 20, this.position.getY());
 		}
 	}
 	public void move_right() {
 		if (this.position.getX() < world.getWidth()-this.size) {
-			this.position = new Point2D(this.position.getX() + 10, this.position.getY());
+			this.position = new Point2D(this.position.getX() + 20, this.position.getY());
 		}
 	}
 	public void jump() {
 		if (!jump) {
 			jump = true;
 		}
+	}
+
+	@Override
+	public Rectangle2D getBoundingBox() {
+		return new Rectangle2D(position.getX(), position.getY() - size, size, size);
+	}
+
+	@Override
+	public void hitBy(Collisionable other) {
+
 	}
 }

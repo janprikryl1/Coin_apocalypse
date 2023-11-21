@@ -31,6 +31,14 @@ public class Score_label implements DrawableSimulable{
 
     @Override
     public void simulate(double deltaT) {
+        increaseScore();
+    }
 
+    public void increaseScore() {
+        this.score++;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 }

@@ -3,10 +3,11 @@ package lab;
 import java.util.Random;
 
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 
 public class World {
+	private boolean game = true;
 	private double width;
 	private double height;
 	private DrawableSimulable []entities;
@@ -15,6 +16,8 @@ public class World {
 	private Score_label scoreLabel;
 	private Coins_count coinsCount;
 	private Obstacle obstacle;
+
+	private GameOver gameOver;
 
 	public World(double width, double height) {
 		super();
@@ -39,6 +42,8 @@ public class World {
 
 		obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40);
 		entities[14] = obstacle;
+
+		gameOver = new GameOver((int) width, (int) height);
 	}
 
 	public Point2D getCanvasPoint(Point2D worldPoint) {
@@ -46,29 +51,34 @@ public class World {
 	}
 
 	public void draw(GraphicsContext gc) {
-		gc.clearRect(0, 0, width, height);
-		for(DrawableSimulable entity: entities) {
-			entity.draw(gc);
+		if (game) {
+			gc.clearRect(0, 0, width, height);
+			for (DrawableSimulable entity : entities) {
+				entity.draw(gc);
+			}
+		} else {
+			gameOver.draw(gc);
 		}
 	}
 
 	public void simulate(double timeDelta) {
-		for(DrawableSimulable entity: entities) {
-			entity.simulate(timeDelta);
-		/*	if (entity instanceof Collisionable) {
-				Collisionable thisCollinsable = (Collisionable) entity;
-				for(DrawableSimulable entity2 : entities) {
-					if (entity != entity2 && entity2 instanceof Collisionable) {
-						Collisionable thatCollinsable = (Collisionable) entity2;
-						if (thisCollinsable.intersects(thatCollinsable)) {
-							thisCollinsable.hitBy(thatCollinsable);
-							thatCollinsable.hitBy(thisCollinsable);
+		if (game) {
+			for (DrawableSimulable entity : entities) {
+				entity.simulate(timeDelta);
+				if (entity instanceof Collisionable) {
+					Collisionable thisCollinsable = (Collisionable) entity;
+					for (DrawableSimulable entity2 : entities) {
+						if (entity != entity2 && entity2 instanceof Collisionable) {
+							Collisionable thatCollinsable = (Collisionable) entity2;
+							if (thisCollinsable.intersects(thatCollinsable)) {
+								thisCollinsable.hitBy(thatCollinsable);
+								thatCollinsable.hitBy(thisCollinsable);
+							}
 						}
 					}
 				}
-			}*/
+			}
 		}
-		
 	}
 
 	public double getWidth() {
@@ -95,5 +105,15 @@ public class World {
 	}
 	public void CoinCollectorJump() {
 		coinCollector.jump();
+	}
+
+	public void increaseCoins() {
+		this.coinsCount.increaseCoins();
+	}
+	public void EndGame() {
+		this.game = false;
+		gameOver.setCoins(coinsCount.getCoins());
+		gameOver.setScore(scoreLabel.getScore());
+		gameOver.saveToScore();
 	}
 }

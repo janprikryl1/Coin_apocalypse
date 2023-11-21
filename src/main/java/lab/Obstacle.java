@@ -29,12 +29,14 @@ public class Obstacle implements DrawableSimulable, Collisionable{
 
     @Override
     public Rectangle2D getBoundingBox() {
-        return null;
+        return new Rectangle2D(position.getX(), position.getY() - size, size, size);
     }
 
     @Override
     public void hitBy(Collisionable other) {
-
+            if ((other instanceof Coin_collector)) {
+                world.EndGame();
+            }
     }
 
     @Override
