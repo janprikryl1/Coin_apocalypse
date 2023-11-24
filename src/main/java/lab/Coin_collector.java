@@ -16,7 +16,8 @@ public class Coin_collector implements DrawableSimulable, Collisionable {
 	
 	private double default_y;
 
-	private Image image;
+	private Image image_left, image_right;
+	private boolean left = true;
 	 
 
 	public Coin_collector(World world, Point2D position) {
@@ -24,7 +25,8 @@ public class Coin_collector implements DrawableSimulable, Collisionable {
 		this.world = world;
 		this.position = position;
 		default_y = position.getY();
-        image = new Image(getClass().getResourceAsStream("coin_collector.png"), size, size, true, true);
+        image_left = new Image(getClass().getResourceAsStream("coin_collector_left.png"), size, size, true, true);
+		image_right = new Image(getClass().getResourceAsStream("coin_collector_right.png"), size, size, true, true);
     }
 
 	public void simulate(double timeStep) {
@@ -41,18 +43,24 @@ public class Coin_collector implements DrawableSimulable, Collisionable {
 	public void draw(GraphicsContext gc) {
 		gc.save();
 		Point2D canvasPosition = world.getCanvasPoint(position);
-		gc.drawImage(image, canvasPosition.getX(), canvasPosition.getY());
+		if (left) {
+			gc.drawImage(image_left, canvasPosition.getX(), canvasPosition.getY());
+		} else {
+			gc.drawImage(image_right, canvasPosition.getX(), canvasPosition.getY());
+		}
 		gc.restore();
 	}
 
 	public void move_left() {
 		if (this.position.getX() > 0) {
 			this.position = new Point2D(this.position.getX() - 20, this.position.getY());
+			left = true;
 		}
 	}
 	public void move_right() {
 		if (this.position.getX() < world.getWidth()-this.size) {
 			this.position = new Point2D(this.position.getX() + 20, this.position.getY());
+			left = false;
 		}
 	}
 	public void jump() {
@@ -74,4 +82,7 @@ public class Coin_collector implements DrawableSimulable, Collisionable {
     public void setPoint(Point2D point2D) {
 		this.position = point2D;
     }
+	public void restart_jump() {
+		this.jump = false;
+	}
 }

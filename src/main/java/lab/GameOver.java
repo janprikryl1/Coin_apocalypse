@@ -43,7 +43,7 @@ public class GameOver implements DrawableSimulable {
         gc.setFill(Color.WHITE);
         gc.fillRect(20, height - 50, 80, 35);
         gc.setFill(Color.BLACK);
-        gc.fillText("Menu", 40, height - 25);
+        gc.fillText("Scores", 35, height - 25);
         gc.restore();
     }
 
@@ -60,7 +60,7 @@ public class GameOver implements DrawableSimulable {
     }
 
     public void saveToScore() {
-        String timeStamp = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
         try(FileWriter fw = new FileWriter("score.csv", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))

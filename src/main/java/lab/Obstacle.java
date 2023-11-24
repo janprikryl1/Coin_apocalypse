@@ -16,14 +16,19 @@ public class Obstacle implements DrawableSimulable, Collisionable{
 
     private final double size = 40;
     private Image image;
+
+    private boolean hidden = false;
+
+
     Random rnd = new Random();
 
-    public Obstacle(World world, Point2D position, int speed) {
+    public Obstacle(World world, Point2D position, int speed, boolean hidden) {
         super();
         this.world = world;
         this.position = position;
         this.speed = speed;
         image = new Image(getClass().getResourceAsStream("obstacle.png"), size, size, true, true);
+        this.hidden = hidden;
     }
 
 
@@ -41,23 +46,34 @@ public class Obstacle implements DrawableSimulable, Collisionable{
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.save();
-        Point2D canvasPosition = world.getCanvasPoint(position);
-        gc.drawImage(image, canvasPosition.getX(), canvasPosition.getY());
-        gc.restore();
+        if (!this.hidden) {
+            gc.save();
+            Point2D canvasPosition = world.getCanvasPoint(position);
+            gc.drawImage(image, canvasPosition.getX(), canvasPosition.getY());
+            gc.restore();
+        }
     }
 
     @Override
     public void simulate(double timeDelta) {
-        double timeDeltaS = timeDelta;
-        //double newX = (position.getX() + speed.getX() * timeDeltaS + world.getWidth()) % world.getWidth();
-        double newY = position.getY() - (speed * timeDeltaS);
-        position = new Point2D(position.getX(), newY);
+        if (!this.hidden) {
+            double timeDeltaS = timeDelta;
+            //double newX = (position.getX() + speed.getX() * timeDeltaS + world.getWidth()) % world.getWidth();
+            double newY = position.getY() - (speed * timeDeltaS);
+            position = new Point2D(position.getX(), newY);
 
-        if (position.getY() <= 0) {
-            int x = rnd.nextInt((int) ((int) world.getWidth() - size));
-            position = new Point2D(x, world.getHeight());
-            speed = rnd.nextInt(40) + 40;
+            if (position.getY() <= 0) {
+                int x = rnd.nextInt((int) ((int) world.getWidth() - size));
+                position = new Point2D(x, world.getHeight());
+                speed = rnd.nextInt(40) + 40;
+            }
         }
+    }
+
+    public boolean is_hidden() {
+        return this.hidden;
+    }
+    public void unhide() {
+        this.hidden = false;
     }
 }

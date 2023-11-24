@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 
 public class World {
 	private boolean game = true;
+	private boolean menu = false;
 	private double width;
 	private double height;
 	private DrawableSimulable []entities;
@@ -18,6 +19,7 @@ public class World {
 	private Obstacle obstacle;
 
 	private GameOver gameOver;
+	private Menu menu_score;
 
 	Random rnd = new Random();
 
@@ -26,9 +28,9 @@ public class World {
 		this.width = width;
 		this.height = height;
 		coinCollector = new Coin_collector(this, new Point2D(70, 65));
-		scoreLabel = new Score_label((int) (this.width/2), 30);
+		scoreLabel = new Score_label((int) (this.width/2), 30, this);
 		coinsCount = new Coins_count((int) (this.width/2), 30);
-		entities = new DrawableSimulable[1 + 3 + 10 + 1];
+		entities = new DrawableSimulable[1 + 3 + 10 + 1 + 3];
 		entities[0] = new Background(this);
 		entities[1] = scoreLabel;
 		entities[2] = coinsCount;
@@ -41,10 +43,16 @@ public class World {
 			entities[i] = coin;
 		}
 
-		obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40);
+		obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, false);
 		entities[14] = obstacle;
 
+		for (int i = 15; i < 18; i++) {
+			Obstacle o = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, true);
+			entities[i] = o;
+		}
+
 		gameOver = new GameOver((int) width, (int) height);
+		menu_score = new Menu((int)width, (int) height);
 	}
 
 	public Point2D getCanvasPoint(Point2D worldPoint) {
@@ -58,7 +66,11 @@ public class World {
 				entity.draw(gc);
 			}
 		} else {
-			gameOver.draw(gc);
+			if (!menu) {
+				gameOver.draw(gc);
+			} else {
+				menu_score.draw(gc);
+			}
 		}
 	}
 
@@ -116,27 +128,53 @@ public class World {
 		gameOver.setCoins(coinsCount.getCoins());
 		gameOver.setScore(scoreLabel.getScore());
 		gameOver.saveToScore();
+		menu = false;
 	}
 
 	public void playAgainClicked() {
 		if (!game) {
+			scoreLabel.restart_score();
+			coinsCount.restart_coin();
 			this.game = true;
-
 			coinCollector.setPoint(new Point2D(70, 65));
-			//entities[3] = coinCollector;
+			coinCollector.restart_jump();
 
 			for (int i = 4; i < 14; i++) {
 				Coin coin = new Coin(this, new Point2D(rnd.nextInt((int) width - 45), height), rnd.nextInt(40) + 45);
 				entities[i] = coin;
 			}
 
-			obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40);
+			obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, false);
 			entities[14] = obstacle;
+			for (int i = 15; i < 18; i++) {
+				Obstacle o = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, true);
+				entities[i] = o;
+			}
 		}
 	}
 	public void MenuClicked() {
 		if (!game) {
-			System.out.println("Menu");
+			if (!menu) {
+				menu = true;
+				menu_score.update_scores();
+			} else  {
+				menu_score.reset_score();
+			}
+		}
+	}
+	public void menu_previous_page_clicked() {
+		menu_score.previous_page();
+	}
+	public void menu_next_page_clicked() {
+		menu_score.next_page();
+	}
+	public void unhide_next_obstacle() {
+		for (int i = 15; i < 18; i++) {
+			Obstacle o = (Obstacle) entities[i];
+			if (o.is_hidden()) {
+				o.unhide();
+				break;
+			}
 		}
 	}
 }

@@ -35,6 +35,10 @@ public class GameController {
 			world.playAgainClicked();
 		} else if (mouseEvent.getX() >= 20 && mouseEvent.getX() <= 99 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) { //Menu od X: 20, Y: 348 do X: 99, Y: 348
 			world.MenuClicked();
+		} else if (mouseEvent.getX() >= 185 && mouseEvent.getX() <= 290 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) {
+			world.menu_previous_page_clicked();
+		} else if (mouseEvent.getX() >= 300 && mouseEvent.getX() <= 385 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) {
+			world.menu_next_page_clicked();
 		}
 
 

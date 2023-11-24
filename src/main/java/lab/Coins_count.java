@@ -43,4 +43,7 @@ public class Coins_count implements DrawableSimulable{
     public void increaseCoins() {
         this.coins++;
     }
+    public void restart_coin() {
+        this.coins = 0;
+    }
 }
