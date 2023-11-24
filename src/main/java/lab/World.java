@@ -19,6 +19,8 @@ public class World {
 
 	private GameOver gameOver;
 
+	Random rnd = new Random();
+
 	public World(double width, double height) {
 		super();
 		this.width = width;
@@ -33,7 +35,6 @@ public class World {
 
 		entities[3] = coinCollector;
 
-		Random rnd = new Random();
 
 		for (int i = 4; i < 14; i++) {
 			Coin coin = new Coin(this, new Point2D(rnd.nextInt((int) width - 45), height), rnd.nextInt(40) + 45);
@@ -119,7 +120,18 @@ public class World {
 
 	public void playAgainClicked() {
 		if (!game) {
-			System.out.println("Play again");
+			this.game = true;
+
+			coinCollector.setPoint(new Point2D(70, 65));
+			//entities[3] = coinCollector;
+
+			for (int i = 4; i < 14; i++) {
+				Coin coin = new Coin(this, new Point2D(rnd.nextInt((int) width - 45), height), rnd.nextInt(40) + 45);
+				entities[i] = coin;
+			}
+
+			obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40);
+			entities[14] = obstacle;
 		}
 	}
 	public void MenuClicked() {

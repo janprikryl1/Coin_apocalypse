@@ -70,4 +70,8 @@ public class Coin_collector implements DrawableSimulable, Collisionable {
 	public void hitBy(Collisionable other) {
 
 	}
+
+    public void setPoint(Point2D point2D) {
+		this.position = point2D;
+    }
 }
