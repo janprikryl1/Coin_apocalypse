@@ -9,17 +9,11 @@ import java.util.Random;
 
 public class Obstacle implements DrawableSimulable, Collisionable{
     private Point2D position;
-
     private int speed;
-
     private final World world;
-
     private final double size = 40;
     private Image image;
-
     private boolean hidden = false;
-
-
     Random rnd = new Random();
 
     public Obstacle(World world, Point2D position, int speed, boolean hidden) {
@@ -39,7 +33,7 @@ public class Obstacle implements DrawableSimulable, Collisionable{
 
     @Override
     public void hitBy(Collisionable other) {
-            if ((other instanceof Coin_collector)) {
+            if ((other instanceof CoinCollector)) {
                 world.EndGame();
             }
     }
@@ -57,9 +51,7 @@ public class Obstacle implements DrawableSimulable, Collisionable{
     @Override
     public void simulate(double timeDelta) {
         if (!this.hidden) {
-            double timeDeltaS = timeDelta;
-            //double newX = (position.getX() + speed.getX() * timeDeltaS + world.getWidth()) % world.getWidth();
-            double newY = position.getY() - (speed * timeDeltaS);
+            double newY = position.getY() - (speed * timeDelta);
             position = new Point2D(position.getX(), newY);
 
             if (position.getY() <= 0) {
@@ -70,10 +62,10 @@ public class Obstacle implements DrawableSimulable, Collisionable{
         }
     }
 
-    public boolean is_hidden() {
+    public boolean isHidden() {
         return this.hidden;
     }
-    public void unhide() {
+    public void unHide() {
         this.hidden = false;
     }
 }

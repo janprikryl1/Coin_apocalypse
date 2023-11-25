@@ -2,17 +2,16 @@ package lab;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class Coins_count implements DrawableSimulable{
+public class CoinsCount implements DrawableSimulable{
     private int width, height;
     private int coins = 0;
     private Font f = Font.font("Comic Sans MS", FontWeight.BOLD, 25);
 
-    Coins_count(int width, int height) {
+    CoinsCount(int width, int height) {
         this.width = width;
         this.height = height;
     }
@@ -32,18 +31,13 @@ public class Coins_count implements DrawableSimulable{
     public void simulate(double deltaT) {
 
     }
-
-    public void setCoins(int coins) {
-        this.coins = coins;
-    }
     public int getCoins () {
         return this.coins;
     }
-
     public void increaseCoins() {
         this.coins++;
     }
-    public void restart_coin() {
+    public void restartCoin() {
         this.coins = 0;
     }
 }

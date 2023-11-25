@@ -1,8 +1,6 @@
 package lab;
 
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -16,9 +14,8 @@ import java.util.Calendar;
 
 public class GameOver implements DrawableSimulable {
     private int width, height, coins, score;
-    private World world;
     private Font f = Font.font("Comic Sans MS", FontWeight.BOLD, 25);
-    private Font f_btn = Font.font("Comic Sans MS", FontWeight.BOLD, 15);
+    private Font btnFont = Font.font("Comic Sans MS", FontWeight.BOLD, 15);
 
     public GameOver(int width, int height) {
         this.width = width;
@@ -35,7 +32,7 @@ public class GameOver implements DrawableSimulable {
         gc.fillText("You collected " + coins + " coins", width / 2 - 140, height / 2 + 30);
         //Play again
         gc.fillRect(width - 100, height - 50, 85, 35);
-        gc.setFont(f_btn);
+        gc.setFont(btnFont);
         gc.setFill(Color.BLACK);
         gc.fillText("Play again", width - 93, height - 25);
 

@@ -7,11 +7,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class GameController {
-
 	private World world;
 	@FXML
-	private Canvas canvas; //Sem se dá ta instance z FXML podle id=canvas
-
+	private Canvas canvas;
 	private AnimationTimer animationTimer;
 	
 	public GameController() {
@@ -36,12 +34,10 @@ public class GameController {
 		} else if (mouseEvent.getX() >= 20 && mouseEvent.getX() <= 99 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) { //Menu od X: 20, Y: 348 do X: 99, Y: 348
 			world.MenuClicked();
 		} else if (mouseEvent.getX() >= 185 && mouseEvent.getX() <= 290 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) {
-			world.menu_previous_page_clicked();
+			world.menuPreviousPageClicked();
 		} else if (mouseEvent.getX() >= 300 && mouseEvent.getX() <= 385 && mouseEvent.getY() >= 348 && mouseEvent.getY() <= 384) {
-			world.menu_next_page_clicked();
+			world.menuNextPageClicked();
 		}
-
-
 	}
 
 	private void handleKeyPressed(KeyEvent event) {

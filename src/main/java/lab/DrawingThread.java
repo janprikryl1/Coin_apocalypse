@@ -5,13 +5,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 public class DrawingThread extends AnimationTimer {
-
 	private final Canvas canvas;
-	
 	private final GraphicsContext gc;
-
 	private final World world;
-	
 	private long lasttime = -1;
 
 	public DrawingThread(Canvas canvas, World world) {
@@ -33,5 +29,4 @@ public class DrawingThread extends AnimationTimer {
 		}
 		lasttime = now;
 	}
-
 }

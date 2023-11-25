@@ -1,46 +1,34 @@
 package lab;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
  *  Class <b>App</b> - extends class Application and it is an entry point of the program
- * @author     Java I
+ * @author     Jan Přikryl
  */
 public class App extends Application {
-
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	private Canvas canvas;
 	private GameController controller;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			//Construct a main window with a canvas.  
-
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Window.fxml")); //Načtení fxml souboru
-			BorderPane pane = loader.load(); //To, co by se psalo jako kód, vrátí instanci toho BorderPane
-			
-			//Group root = new Group();
-			//canvas = new Canvas(800, 600);
-			//root.getChildren().add(canvas);
+			BorderPane pane = loader.load();
 			Scene scene = new Scene(pane);
 			
 			
 			primaryStage.setScene(scene);
 			primaryStage.resizableProperty().set(false);
-			primaryStage.setTitle("Java 1 - 5th laboratory");
+			primaryStage.setTitle("Coin apocalypse");
 			primaryStage.show();
-			controller = loader.getController();//new GameController(canvas);
+			controller = loader.getController();
 			controller.startGame();
 			//Exit program when main window is closed
 			primaryStage.setOnCloseRequest(this::exitProgram);
@@ -48,8 +36,6 @@ public class App extends Application {
 			e.printStackTrace();
 		}
 	}
-	
-
 	
 	private void exitProgram(WindowEvent evt) {
 		controller.stopGame();

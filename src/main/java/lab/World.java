@@ -4,7 +4,6 @@ import java.util.Random;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 
 public class World {
 	private boolean game = true;
@@ -12,24 +11,21 @@ public class World {
 	private double width;
 	private double height;
 	private DrawableSimulable []entities;
-
-	private Coin_collector coinCollector;
-	private Score_label scoreLabel;
-	private Coins_count coinsCount;
+	private CoinCollector coinCollector;
+	private ScoreLabel scoreLabel;
+	private CoinsCount coinsCount;
 	private Obstacle obstacle;
-
 	private GameOver gameOver;
-	private Menu menu_score;
-
+	private Menu menuScore;
 	Random rnd = new Random();
 
 	public World(double width, double height) {
 		super();
 		this.width = width;
 		this.height = height;
-		coinCollector = new Coin_collector(this, new Point2D(70, 65));
-		scoreLabel = new Score_label((int) (this.width/2), 30, this);
-		coinsCount = new Coins_count((int) (this.width/2), 30);
+		coinCollector = new CoinCollector(this, new Point2D(70, 65));
+		scoreLabel = new ScoreLabel((int) (this.width/2), 30, this);
+		coinsCount = new CoinsCount((int) (this.width/2), 30);
 		entities = new DrawableSimulable[1 + 3 + 10 + 1 + 3];
 		entities[0] = new Background(this);
 		entities[1] = scoreLabel;
@@ -52,7 +48,7 @@ public class World {
 		}
 
 		gameOver = new GameOver((int) width, (int) height);
-		menu_score = new Menu((int)width, (int) height);
+		menuScore = new Menu((int)width, (int) height);
 	}
 
 	public Point2D getCanvasPoint(Point2D worldPoint) {
@@ -69,7 +65,7 @@ public class World {
 			if (!menu) {
 				gameOver.draw(gc);
 			} else {
-				menu_score.draw(gc);
+				menuScore.draw(gc);
 			}
 		}
 	}
@@ -97,24 +93,14 @@ public class World {
 	public double getWidth() {
 		return width;
 	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
 	public double getHeight() {
 		return height;
 	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
 	public void setCoinCollectorMovingLeft() {
-		coinCollector.move_left();
+		coinCollector.moveLeft();
 	}
 	public void setCoinCollectorMovingRight() {
-		coinCollector.move_right();
+		coinCollector.moveRight();
 	}
 	public void CoinCollectorJump() {
 		coinCollector.jump();
@@ -133,11 +119,11 @@ public class World {
 
 	public void playAgainClicked() {
 		if (!game) {
-			scoreLabel.restart_score();
-			coinsCount.restart_coin();
+			scoreLabel.restartScore();
+			coinsCount.restartCoin();
 			this.game = true;
 			coinCollector.setPoint(new Point2D(70, 65));
-			coinCollector.restart_jump();
+			coinCollector.restartJump();
 
 			for (int i = 4; i < 14; i++) {
 				Coin coin = new Coin(this, new Point2D(rnd.nextInt((int) width - 45), height), rnd.nextInt(40) + 45);
@@ -156,23 +142,23 @@ public class World {
 		if (!game) {
 			if (!menu) {
 				menu = true;
-				menu_score.update_scores();
+				menuScore.updateScores();
 			} else  {
-				menu_score.reset_score();
+				menuScore.resetScore();
 			}
 		}
 	}
-	public void menu_previous_page_clicked() {
-		menu_score.previous_page();
+	public void menuPreviousPageClicked() {
+		menuScore.previousPage();
 	}
-	public void menu_next_page_clicked() {
-		menu_score.next_page();
+	public void menuNextPageClicked() {
+		menuScore.nextPage();
 	}
-	public void unhide_next_obstacle() {
+	public void unhideNextObstacle() {
 		for (int i = 15; i < 18; i++) {
 			Obstacle o = (Obstacle) entities[i];
-			if (o.is_hidden()) {
-				o.unhide();
+			if (o.isHidden()) {
+				o.unHide();
 				break;
 			}
 		}

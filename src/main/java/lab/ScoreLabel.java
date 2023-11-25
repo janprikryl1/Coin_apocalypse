@@ -6,15 +6,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class Score_label implements DrawableSimulable{
-
+public class ScoreLabel implements DrawableSimulable{
     private World game;
     private int width, height;
     private int score = 0;
-
     private Font f = Font.font("Comic Sans MS", FontWeight.BOLD, 25);
 
-    Score_label(int width, int height, World game) {
+    ScoreLabel(int width, int height, World game) {
         this.width = width;
         this.height = height;
         this.game = game;
@@ -36,7 +34,7 @@ public class Score_label implements DrawableSimulable{
     public void simulate(double deltaT) {
         increaseScore();
         if (this.score % 1000 == 0) {
-            game.unhide_next_obstacle();
+            game.unhideNextObstacle();
         }
     }
 
@@ -48,7 +46,7 @@ public class Score_label implements DrawableSimulable{
         return this.score;
     }
 
-    public void restart_score() {
+    public void restartScore() {
         this.score = 0;
     }
 }
