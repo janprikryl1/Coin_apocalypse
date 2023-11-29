@@ -101,8 +101,30 @@ public class Menu implements DrawableSimulable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.scores.clear();
-        page = 0;
+        resetObstacleSpped();
+        resetCoins();
+        updateScores();
+    }
+
+    private void resetObstacleSpped() {
+        try(FileWriter fw = new FileWriter("obstacle_speed.txt", false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.print("1");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetCoins() {
+        try (FileWriter fw = new FileWriter("total_coins.txt", false);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            out.print("0");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public void previousPage() {

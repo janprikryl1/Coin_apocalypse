@@ -1,6 +1,9 @@
 package lab;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,10 +20,14 @@ public class World {
 	private Obstacle obstacle;
 	private GameOver gameOver;
 	private Menu menuScore;
+	private int speed_radius;
 	Random rnd = new Random();
 
 	public World(double width, double height) {
 		super();
+		speed_radius = read_speed();
+
+
 		this.width = width;
 		this.height = height;
 		coinCollector = new CoinCollector(this, new Point2D(70, 65));
@@ -39,7 +46,7 @@ public class World {
 			entities[i] = coin;
 		}
 
-		obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, false);
+		obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(speed_radius * 40) + 40, false);
 		entities[14] = obstacle;
 
 		for (int i = 15; i < 18; i++) {
@@ -47,8 +54,19 @@ public class World {
 			entities[i] = o;
 		}
 
-		gameOver = new GameOver((int) width, (int) height);
+		gameOver = new GameOver(this);
 		menuScore = new Menu((int)width, (int) height);
+	}
+
+	public int read_speed() {
+		try (Scanner scanner = new Scanner(new File("obstacle_speed.txt"))){
+			scanner.useDelimiter("[;\\n]");
+				//scanner.nextInt(); //int total_score = scanner.nextInt();
+				return scanner.nextInt();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+		return 1;
 	}
 
 	public Point2D getCanvasPoint(Point2D worldPoint) {
@@ -130,10 +148,10 @@ public class World {
 				entities[i] = coin;
 			}
 
-			obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, false);
+			obstacle = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(speed_radius * 40) + 40, false);
 			entities[14] = obstacle;
 			for (int i = 15; i < 18; i++) {
-				Obstacle o = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(40) + 40, true);
+				Obstacle o = new Obstacle(this, new Point2D(rnd.nextInt((int) width - 40), height), rnd.nextInt(speed_radius * 40) + 40, true);
 				entities[i] = o;
 			}
 		}
@@ -161,6 +179,20 @@ public class World {
 				o.unHide();
 				break;
 			}
+		}
+	}
+
+	public int getObstacleSpeed() {
+		return this.speed_radius;
+	}
+
+	public void setObstacleSpeed(int speed) {
+		this.speed_radius = speed;
+	}
+
+	public void useCoins() {
+		if (!game && !menu) {
+			gameOver.useCoins();
 		}
 	}
 }

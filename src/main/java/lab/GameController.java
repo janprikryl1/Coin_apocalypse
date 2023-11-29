@@ -48,6 +48,8 @@ public class GameController {
 			world.setCoinCollectorMovingRight();
 		} else if(event.getCode().getCode() == 38) { //Jump
 			world.CoinCollectorJump();
+		} else if (event.getCode().getCode() == 85) { //Incerase score
+			world.useCoins();
 		}
 	}
 
